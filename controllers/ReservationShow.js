@@ -59,6 +59,7 @@ exports.show = async (req, res, next) => {
     }
     if (req.query.error || req.query.message) {
       let data = [];
+      const moment = require('moment');
       // data = await reservationModel.find();
       var date_ob = new Date();
       var day = ("0" + date_ob.getDate()).slice(-2);
@@ -72,6 +73,7 @@ exports.show = async (req, res, next) => {
 
       return res.render("reservationShow", {
         data,
+        moment,
         error: req.query.error,
         message: req.query.message,
         date: req.query.date,
@@ -93,8 +95,10 @@ exports.show = async (req, res, next) => {
         }).populate("hall");
         data = await reservationModel.find({ date: req.query.date, time: req.query.time });
         data = data.reverse();
+        const moment = require('moment');
         return res.render("reservationShow", {
           data,
+          moment,
           error: "",
           message: "",
           date: req.query.date,
@@ -113,8 +117,11 @@ exports.show = async (req, res, next) => {
         }).populate("hall");
         data = data.reverse();
 
+        const moment = require('moment');
+
         return res.render("reservationShow", {
           data,
+          moment,
           error: "",
           message: "",
           date: "",

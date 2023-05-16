@@ -64,7 +64,7 @@
                   <%= i+1 %>
                 </td>
                 <td>
-                  <%= data[i].date %>
+                  <%= moment(data[i].date).format('DD-MM-YYYY') %>
                 </td>
                 <td>
                   <%= data[i].username %>

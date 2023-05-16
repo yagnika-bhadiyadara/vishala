@@ -91,8 +91,10 @@ exports.show = async (req, res, next) => {
         //     console.log("extra services ", data[i].services[j]);
         //   }
         // }
+        const moment = require('moment');
         return res.render("paymentReport", {
           data,
+          moment,
           currentDate,
           error: "",
           message: "",
@@ -111,7 +113,8 @@ exports.show = async (req, res, next) => {
           due_payment: { $gt: 0 }
         });
         data = data.reverse();
-        console.log("data ",data);
+        const moment = require('moment');
+        // console.log("data ",data);
         // for (var i = 0; i < data.length; i++) {
         //   for(var j=0;j < data[i].services.length;j++){
         //     console.log("extra services ", data[i].services[j].name);
@@ -120,6 +123,7 @@ exports.show = async (req, res, next) => {
 
         return res.render("paymentReport", {
           data,
+          moment,
           currentDate,
           error: "",
           message: "",

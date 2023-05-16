@@ -106,7 +106,7 @@
                           <%= data[i].phonenumber %>
                         </td>
                         <td>
-                          <%= data[i].date %>
+                          <%= moment(data[i].date).format('DD/MM/YY') %>
                         </td>
                         <td>
                           <%= data[i].time %>
@@ -137,7 +137,7 @@
                                       <tr>
                                         <td><b>Date and Time : </b></td>
                                         <td>
-                                          <%= formattedDate %> /  <%= data1[d].time %>
+                                          <%= moment(data1[d].date).format('DD-MM-YYYY') %> /  <%= data1[d].time %>
                                           <br>
                                         </td>
                                       </tr>

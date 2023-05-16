@@ -66,6 +66,8 @@ exports.show = async (req, res, next) => {
         const d2 = new Date(req.query.to_date);
         // console.log("date ",getDatesInRange(d1, d2));
         var dates = getDatesInRange(d1, d2);
+
+        // console.log("dates ",formattedDate);
         // console.log("d1 ",d1);
         // console.log("d2 ",d2);
         // console.log("dates ", dates);
@@ -77,11 +79,16 @@ exports.show = async (req, res, next) => {
         data1 = await reservationModel.find({
           _id: { $eq: req.query.id }
         }).populate("hall services items");
+        
         data1 = data1.reverse();
+        // console.log("data1 ",data1[0].date);
         const moment = require('moment');
-        const formattedDate = moment(data1[0].date).format('DD-MM-YYYY');
+        // for(var i=0;i < data.length;i++){
+        //   console.log("data ",data[i].hall);
+        // }
+        // const formattedDate = moment(data1[0].date).format('DD-MM-YYYY');
 
-        console.log("data1 ",data1[0].date);
+        // console.log("data1 ",data1[0].date);
         // for(var i=0;i < data1[0].services.length;i++){
         //   console.log("data ",data1[0].services[i].name);
         // }
@@ -89,7 +96,8 @@ exports.show = async (req, res, next) => {
         return res.render("report", {
           data,
           data1,
-          formattedDate,
+          moment,
+          // formattedDate,
           error: "",
           message: "",
           date: req.query.date,

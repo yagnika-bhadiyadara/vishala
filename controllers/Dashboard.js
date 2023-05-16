@@ -67,6 +67,7 @@ exports.show = async (req, res, next) => {
           // }},
         ).populate("hall items");
         data = data.reverse();
+        // console.log("data ",data);
         const moment = require('moment');
         const formattedDate = moment(req.query.date).format('DD-MM-YYYY');
         // console.log("formattedDate ",formattedDate);
