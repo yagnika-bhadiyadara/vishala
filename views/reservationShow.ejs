@@ -1,0 +1,141 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reservation Show</title>
+  <style>
+    ul li:nth-child(5) a{
+      color: white;
+      background-color: #2D3250;
+      border-radius: 999em;
+    }
+  </style>
+</head>
+
+<body> -->
+  <style>
+    ul li:nth-child(4) a{
+      color: white;
+      background-color: #2D3250;
+      border-radius: 999em;
+    }
+  </style>
+  <div class="d-flex">
+<div class="col-3">
+  <%- include('sidebar'); -%>
+</div>
+
+<div class="col-9 bg-color">
+    <div class="container mt-5">
+      <div class="d-flex justify-content-between">
+        <div>
+          <h5>Hey, Venessa</h5>
+          <h2>Booking Data</h2>
+        </div>
+        <div>
+          <a href="/"><button class="addReservationBtn py-1" style="cursor: pointer;"><i class="fas fa-plus-circle paddingRight_10"></i>Add Reservation</button></a>
+        </div>
+      </div>
+
+      <% if(error) { %>
+        <p class="successMessage">
+          <%= error %>
+        </p>
+        <% } %>
+
+          <% if(message) { %>
+            <h6>
+              <%= message %>
+            </h6>
+            <% } %>
+
+              <form method="get" action="/reservationShow">
+                <div class="form-control">
+                  <label class="w-15">Date</label>
+                  <input type="date" name="date" value="<%= date %>" />
+                  <a href="/reservationShow" class="button padding"><i class="fas fa-undo resetBtn"></i>Reset</a>
+                  <br /><br />
+                  <label class="w-15">Add Time</label>
+                  <select name="time" class="w-600">
+                    <option <%=time==='Morning' ? 'selected' : '' %> >Morning</option>
+                    <option <%=time==='Noon' ? 'selected' : '' %> >Noon</option>
+                    <option <%=time==='Evening' ? 'selected' : '' %> >Evening</option>
+                    <option <%=time==='All' ? 'selected' : '' %> >All</option>
+                  </select>
+                  <input type="submit" value="Search" class="button" />
+                  <br><br>
+                </div>
+              </form>
+
+              <br>
+              <div class="scroll">
+              <table class="table table-borderless mt-3">
+                <thead>
+                  <tr>
+                    <th>No.</th>
+                    <th>Name</th>
+                    <th>Contact No.</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Hall</th>
+                    <th>Advance</th>
+                    <th>Due</th>
+                    <th>Payment</th>
+                    <th class="text-align-center">Edit</th>
+                    <th class="text-align-center">Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for(var i=0; i < data.length; i++) { %>
+                    <tr>
+                      <td>
+                        <%= i+1 %>
+                      </td>
+                      <td>
+                        <%= data[i].username %>
+                      </td>
+                      <td>
+                        <%= data[i].phonenumber %>
+                      </td>
+                      <td>
+                        <%= data[i].date %>
+                      </td>
+                      <td>
+                        <%= data[i].time %>
+                      </td>
+                      <td>
+                        <%= data[i].hall.name %>
+                      </td>
+                      <td>
+                        <%= data[i].advance_payment %>
+                      </td>
+                      <td>
+                        <%= data[i].due_payment %>
+                      </td>
+                      <td>
+                        <a href="/reservationShow?id=<%= data[i]._id %>"><button class="button">Done</button></a>
+                      </td>
+                      <td class="text-align-center">
+                        <!-- <a href="/?id=<%= data[i]._id %>""><button>Edit</button></a> -->
+                        <a href="/?id=<%= data[i]._id %>"><i class="fas fa-edit"></i></a>
+                      </td>
+                      <td class="text-align-center">
+                        <!-- <a href=" /reservationShow/delete/<%=data[i]._id %>""><button>Delete</button></a> -->
+                        <a href=" /reservationShow/delete/<%=data[i]._id %>"><i class="fas fa-trash-alt"></i></a>
+                      </td>
+                    </tr>
+                    <tr>
+                      <% } %>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+
+    </div>
+  </div>
+</div>
+
+<%- include('footer'); -%>

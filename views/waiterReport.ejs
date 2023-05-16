@@ -1,0 +1,95 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <style>
+    ul li:nth-child(7) a{
+      color: white;
+      background-color: #2D3250;
+      border-radius: 999em;
+    }
+  </style>
+</head>
+
+<body> -->
+<style>
+  ul li summary {
+    color: white;
+    background-color: #2D3250 !important;
+  }
+
+  ul li details p:nth-child(4) a {
+    color: #fff;
+    background-color: #42486b !important;
+  }
+</style>
+<div class="d-flex">
+  <div class="col-3">
+    <%- include('sidebar'); -%>
+  </div>
+
+  <div class="col-9 bg-color">
+    <div class="container mt-5">
+      <h5>Hey, Venessa</h5>
+      <h2>Services Report</h2>
+
+      <form method="get" action="/waiterReport">
+        <div class="form-control">
+          <label class="w-10">Date</label>
+          <input type="date" name="date" value="<%= currentDate %>" />
+          <a href="/waiterReport" class="button padding"><i class="fas fa-undo resetBtn"></i>Reset</a>
+          <br><br>
+          <label class="w-10">Hall</label>
+          <select name="hall">
+            <% for(var i=0; i < halls.length ; i++ ) { %>
+              <option value="<%= halls[i]._id %>">
+                <%= halls[i].name %>
+              </option>
+              <% } %>
+          </select>
+          <input type="submit" value="Search" class="button" />
+          <br><br>
+        </div>
+      </form>
+
+      <table class="table table-borderless mt-3">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th>Hall</th>
+            <th>Extra Service</th>
+            <th>Person</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <% for(var i=0;i < data.length;i++){ %>
+              <% for(var j=0;j < data[i].services.length;j++){ %>
+                <td>
+                  <%= data[i].username %>
+                </td>
+                <td>
+                  <%= data[i].hall.name %>
+                </td>
+                <td>
+                  <%= data[i].services[j].name %>
+                </td>
+                <td>
+                  <%= data[i].person %>
+                </td>
+          </tr>
+          <tr>
+            <% } %>
+              <% } %>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%- include('footer'); -%>

@@ -1,0 +1,94 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <style>
+    ul li:nth-child(7) a{
+      color: white;
+      background-color: #2D3250;
+      border-radius: 999em;
+    }
+  </style>
+</head>
+
+<body> -->
+<style>
+  ul li summary{
+      color: white;
+      background-color: #2D3250 !important;
+    }
+    ul li details p:nth-child(5) a{
+      color: #fff;
+      background-color: #42486b !important;
+    }
+</style>
+<div class="d-flex">
+  <div class="col-3">
+    <%- include('sidebar'); -%>
+  </div>
+
+  <div class="col-9 bg-color">
+    <div class="container mt-5">
+      <h5>Hey, Venessa</h5>
+      <h2>Payment Report</h2>
+
+      <!-- <form method="get" action="/waiterReport">
+            <div class="form-control">
+              <label class="w-10">Date</label>
+              <input type="date" name="date" value="<%= currentDate %>" />
+              <input type="submit" value="Search" class="button" />
+              <br><br>
+            </div>
+          </form> -->
+
+      <table class="table table-borderless mt-3">
+        <thead>
+          <tr>
+            <th>No</th>
+            <th>Date</th>
+            <th>Name</th>
+            <th>Contact No.</th>
+            <th>Advance Payment</th>
+            <th>Due Payment</th>
+            <th>Payment</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <% for(var i=0;i < data.length;i++){ %>
+                <td>
+                  <%= i+1 %>
+                </td>
+                <td>
+                  <%= data[i].date %>
+                </td>
+                <td>
+                  <%= data[i].username %>
+                </td>
+                <td>
+                  <%= data[i].phonenumber %>
+                </td>
+                <td>
+                  <%= data[i].advance_payment %>
+                </td>
+                <td>
+                  <%= data[i].due_payment %>
+                </td>
+                <td>
+                  <a href="/paymentReport?id=<%= data[i]._id %>"><button class="button">Done</button></a>
+                </td>
+          </tr>
+          <tr>
+            <% } %>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<%- include('footer'); -%>

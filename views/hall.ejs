@@ -1,0 +1,95 @@
+<!-- <!DOCTYPE html>
+<html>
+  <head>
+    <title>Hall</title>
+    <style>
+      ul li:nth-child(1) a{
+        color: white;
+        background-color: #2D3250;
+        border-radius: 999em;
+      }
+    </style>
+  </head>
+  <body> -->
+    <style>
+      ul li:nth-child(1) a{
+        color: white;
+        background-color: #2D3250;
+        border-radius: 999em;
+      }
+    </style>
+    <div class="d-flex">
+      <div class="col-3">
+    <%- include('sidebar'); -%>
+  </div>
+
+  <div class="col-9 bg-color">
+    <div class="container mt-5">
+        <h5>Hey, Venessa</h5>
+        <h2>Add Hall</h2>
+
+    <% if(error) { %>
+      <p class="successMessage"><%= error %></p>
+      <% } %>
+
+  <% if(message) { %>
+        <h6>
+          <%= message %>
+        </h6>
+        <% } %>
+      
+      <% if(edit) { %>
+        <form method="post" action="/hall/<%= id %>">
+          <% }else{ %>
+            <form method="post" action="/hall">
+            <% } %>
+            <div class="form-control">
+              <label class="w-15">Hall Name</label>
+              <input type="text" placeholder="Hall Name" name="name" value="<%= name %>" />
+              <a href="/hall" class="button padding"><i class="fas fa-undo resetBtn"></i>Reset</a>
+              <br /><br />
+              <label class="w-15">Capacity</label>
+              <input type="number" placeholder="Capacity" name="capacity" value="<%= capacity %>" x />
+              <% if(edit) { %>
+                <input type="submit" value="Update Hall" class="button" />
+                <% }else{ %>
+                  <input type="submit" value="Add Hall" class="button" />
+                  <% } %>
+                  <br /><br />
+            </div>
+    </form>
+    <br /><br />
+
+    <div class="scroll">
+    <table class="table table-borderless">
+      <thead>
+        <tr>
+          <th>Hall Name</th>
+          <th>Capacity</th>
+          <th class="text-align-center">Edit</th>
+          <th class="text-align-center">Delete</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(var i=0; i < data.length; i++) { %>
+        <tr>
+          <td><%= data[i].name %></td>
+
+          <td><%= data[i].capacity %></td>
+          <!-- <td><a href="/hall/delete/<%= data[i]._id %>""><button>Delete</button></a></td> -->
+          <!-- <td><a href="/hall?id=<%= data[i]._id %>""><button>Edit</button></a></td> -->
+          <td class="text-align-center"><a href="/hall?id=<%= data[i]._id %>""><i class="fas fa-edit"></i></a></td>
+          <td class="text-align-center"><a href="/hall/delete/<%= data[i]._id %>""><i class="fas fa-trash-alt"></i></a></td>
+        </tr>
+
+        <tr>
+          <% } %>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  </div>
+</div>
+</div>
+<%- include('footer'); -%>

@@ -1,0 +1,469 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Reservation</title>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <style>
+    select {
+      width: 100% !important;
+    }
+  </style>
+</head>
+
+<body> -->
+<style>
+  ul li:nth-child(5) a {
+    color: white;
+    background-color: #2D3250;
+    border-radius: 999em;
+  }
+</style>
+<div class="d-flex">
+  <div class="col-3">
+    <%- include('sidebar'); -%>
+  </div>
+
+  <div class="col-9 bg-color">
+    <div class="container mt-5">
+      <h5>Hey, Venessa</h5>
+      <h2>Reservation</h2>
+
+      <br>
+      <div class="tab-content" id="myTabContent">
+        <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+          <form method="get" action="/">
+            <!-- <div class="form-control"> -->
+            <label class="w-10">Date</label>
+            <input type="date" name="date" value="<%= date %>" style="margin-right: 20px;" />
+            <a href="/" class="button padding"><i class="fas fa-undo resetBtn"></i>Reset</a>
+            <br /><br />
+            <label class="w-10">Time</label>
+            <select name="time" style="margin-right: 20px;">
+              <option <%=time==='Morning' ? 'selected' : '' %> >Morning</option>
+              <option <%=time==='Noon' ? 'selected' : '' %> >Noon</option>
+              <option <%=time==='Evening' ? 'selected' : '' %> >Evening</option>
+              <option <%=time==='All' ? 'selected' : '' %> >All</option>
+            </select>
+            <!-- <label class="w-10">No. of Person</label> -->
+            <!-- <input type="number" name="capacity" value="<%= capacity %>" id="capacity" /> -->
+            <!-- <br /><br /> -->
+            <input type="hidden" name="search" value="true">
+            <input type="submit" value="Search" class="button" />
+            <br /><br />
+            <!-- </div> -->
+          </form>
+
+          <% if(edit) { %>
+            <form method="post" action="/<%= id %>">
+              <% }else{ %>
+                <form method="post" action="/">
+                  <% } %>
+                    <input type="hidden" name="date" value="<%= date %>">
+                    <input type="hidden" name="time" value="<%= time %>">
+                    <!-- <input type="hidden" name="capacity" value="<%= capacity %>"> -->
+
+                    <div class="control-group">
+
+                      <div class="row g-3">
+                        <div class="col">
+                          <br>
+                          <h2>Personal Details</h2>
+                          <br>
+                          <label class="w-20">Name</label>
+                          <input type="text" name="username" placeholder="Name" value="<%= username %>" required>
+                          <br><br>
+
+                          <label class="w-20">Address</label>
+                          <input type="text" name="address" placeholder="Address" value="<%= address %>" required>
+                          <br><br>
+
+                          <label class="w-20">Phone Number</label>
+                          <input type="number" name="phonenumber" placeholder="Phone Number" value="<%= phonenumber %>"
+                            class="w-265" style="margin-right: 10px;" required>
+                          <!-- <br><br> -->
+
+                          <label style="width: 7%;">Email</label>
+                          <input type="email" name="email" placeholder="E-Mail" value="<%= email %>" class="w-265"
+                            required>
+                          <br><br>
+
+                          <label class="w-20">No of Person</label>
+                          <input type="number" id="person" placeholder="Person" value="<%= person %>" name="person"
+                            class="w-265" style="margin-right: 10px;">
+                          <!-- <br><br> -->
+
+                          <label style="width: 7%;">Ocation</label>
+                          <input type="ocation" name="ocation" placeholder="Ocation" value="<%= ocation %>"
+                            class="w-265" required>
+                          <br><br>
+
+                          <h2>Booking Details</h2>
+                          <br>
+                          <label class="w-20">Select Hall</label>
+                          <select name="hall">
+                            <% for(var i=0; i < hallsList.length ; i++ ) { %>
+
+                              <% if(edit){ %>
+                                <option value="<%= hallsList[i]._id %>" <%=hallsList[i].name==hall.name ? 'selected'
+                                  : '' %>>
+                                  <%= hallsList[i].name %> :: <%= hallsList[i].capacity %>
+                                </option>
+                                <% }else{ %>
+                                  <option value="<%= hallsList[i]._id %>">
+                                    <%= hallsList[i].name %> :: <%= hallsList[i].capacity %>
+                                  </option>
+                                  <% } %>
+
+                                    <% } %>
+                          </select>
+                          <br><br>
+
+                          <div class="d-flex">
+                            <label class="w-20"></label>
+                            <p class="button" id="resetbtn">Reset</p>
+                          </div>
+
+                          <div class="d-flex" id="menu_items">
+                            <label class="w-20">Menu Items</label>
+                            <select class="form-control w-45 border" id="select1" style="background-color: #f5f5f5;"
+                              multiple>
+
+                              <% for(var i=0; i < item.length; i++) { %>
+                                <option value='<%= item[i].id %>'>
+                                  <%= item[i].name %>
+                                </option>
+                                <% } %>
+                            </select>
+                            <select class="form-control w-45" style="background-color: #f5f5f5;" multiple id="select2"
+                              name="item_id">
+                              <%= item %>
+                                <% if(edit) { %>
+                                  <% for(var i=0; i < itemList.length; i++) { %>
+                                    "<option selected value='<%= item[i].id %>'>
+                                      <%= itemList[i].name %>
+                                    </option>
+                                    <% } %>
+                                      <% } %>
+                            </select>
+                          </div>
+                          <br><br>
+
+                          <div class="d-flex">
+                            <label class="w-20">Extra Services</label>
+                            <select class="form-control w-45 border" style="background-color: #f5f5f5;" id="select3"
+                              multiple>
+
+                              <% for(var i=0; i < service.length; i++) { %>
+                                <option value='<%= service[i].id %>' data-id="<%= service[i].price %>">
+                                  <%= service[i].name %> :: <%= service[i].price %>
+                                </option>
+                                <% } %>
+                            </select>
+                            <select class="form-control w-45" style="background-color: #f5f5f5;" multiple id="select4"
+                              name="item_id">
+                              <% if(edit) { %>
+                                <% for(var i=0; i < services.length; i++) { %>
+                                  <option selected value='<%= services[i]._id %>' data-id="<%= service[i].price %>">
+                                    <%= services[i].name %> :: <%= service[i].price %>
+                                  </option>
+                                  <% } %>
+                                    <% } %>
+                            </select>
+                          </div>
+                          <br><br>
+
+                          <h2>Payment Details</h2>
+                          <br>
+                          <label style="width: 15%;">Price of Plate</label><input type="number" name="price_of_plate"
+                            value="<%= price_of_plate %>" id="price_of_plate" placeholder="Price of Plate" class="w-265"
+                            style="margin-right: 10px;" required>
+                          <!-- <br><br> -->
+
+                          <label style="width: 11%;">Total Amount</label><input type="number" name="total_amount"
+                            value="<%= total_amount %>" id="total_amount" placeholder="Total Amount" class="w-265"
+                            readonly>
+                          <br><br>
+
+                          <label style="width: 15%;">Extra Price</label>
+                          <input type="hidden" name="price" value="<%= price %>" id="price">
+                          <input type="number" name="extra_price" placeholder="Extra Price" value="<%= extra_price %>"
+                            id="extra_price" class="w-265" style="margin-right: 10px;">
+                          <!-- <br><br> -->
+
+                          <label style="width: 11%;">Final Price</label></td>
+                          <input type="number" name="final_amount" placeholder="Final Price" value="<%= final_amount %>"
+                            id="final_amount" class="w-265" readonly>
+                          <br><br>
+
+                          <label style="width: 15%;">Advance Payment</label>
+                          <input type="number" name="advance_payment" placeholder="Advance Payment"
+                            value="<%= advance_payment %>" id="advance_payment" class="w-265"
+                            style="margin-right: 10px;" required>
+                          <!-- <br><br> -->
+
+                          <label style="width: 11%;">Due Payment</label>
+                          <input type="number" name="due_payment" placeholder="Due Payment" value="<%= due_payment %>"
+                            id="due_payment" class="w-265" readonly>
+                          <br><br>
+                        </div>
+
+                      </div>
+                    </div>
+
+                    <div class="text-center">
+                      <% if(edit) { %>
+                        <input type="submit" value="Update Booking" class="button" />
+                        <a href="/" class="button padding">Cancel</a>
+                        <% }else{ %>
+                          <input type="submit" value="Booking" class="justify-content-end button" />
+                          <a href="/" class="button padding">Cancel</a>
+                          <% } %>
+                    </div>
+                </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+<script>
+  var triggerTabList = [].slice.call(document.querySelectorAll("#myTab a"));
+  triggerTabList.forEach(function (triggerEl) {
+    var tabTrigger = new bootstrap.Tab(triggerEl);
+
+    triggerEl.addEventListener("click", function (event) {
+      event.preventDefault();
+      tabTrigger.show();
+    });
+  });
+  var triggerEl = document.querySelector('#myTab a[href="#profile"]');
+  bootstrap.Tab.getInstance(triggerEl).show(); // Select tab by name
+
+  var triggerFirstTabEl = document.querySelector("#myTab li:first-child a");
+  bootstrap.Tab.getInstance(triggerFirstTabEl).show(); // Select first tab
+</script>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    // Get Reset button element
+    var resetBtn = document.getElementById('resetbtn');
+
+    // Add click event listener to Reset button
+    resetBtn.addEventListener('click', function () {
+      // Reset the select boxes
+      $('#select1').empty();
+      $('#select2').empty();
+      "<% for(var i=0; i < item.length; i++) { %>"
+      $('#select1').append("<option value='<%= item[i].id %>'><%= item[i].name %></option>");
+      "<% } %>"
+    });
+  });
+</script>
+
+<script>
+
+  // $('#resetbtn').click(function () {
+  //   console.log("Hello");
+  //   // console.log("<% for(var i=0; i < item.length; i++) { %><option value='<%= item[i].id %>'><%= item[i].name %></option><% } %>");
+  //   $('#select2').val([]);
+  // });
+
+  // $(document).ready(function() {
+  //   // Add event listener to Reset button
+  //   $('#resetbtn').click(function() {
+  //     console.log("Hello");
+  //     // Reset the Menu Items select box
+  //     $('#select2').val([]);
+  //   });
+  // });
+
+  $('#select1').click(function () {
+    return !$('#select1 option:selected').remove().appendTo('#select2');
+  });
+  $('#select2').click(function () {
+    return !$('#select2 option:selected').remove().appendTo('#select1');
+  });
+
+  $('#select3').click(function () {
+    return !$('#select3 option:selected').remove().appendTo('#select4');
+  });
+  $('#select4').click(function () {
+    return !$('#select4 option:selected').remove().appendTo('#select3');
+  });
+
+  // price
+
+  var sum = 0;
+  function calculation() {
+    // -----price of palte and capacity-----
+    var price_of_plate = $("#price_of_plate").val();
+    var no_of_person = $("#person").val();
+    console.log(no_of_person);
+    // console.log(price_of_plate);
+    var amount = parseInt(price_of_plate) * parseInt(no_of_person);
+    // console.log("amount ",amount);
+    $("#total_amount").val(amount);
+
+    // ----------extra price add----------
+    var select1 = $('option:selected', "#select3").data('id');
+    // console.log("select1 ",select1);
+    if (select1) {
+      sum += select1;
+    }
+    // var total_sum = sum * no_of_person;
+    var total_sum = sum * 1;
+    $("#extra_price").val(total_sum);
+    // var select1 = $('option:selected', "#select1").data('id');
+    // if(select1){
+    //   sum += select1;
+    // }
+    // var total_sum = sum * no_of_person;
+    // // $("#extra_price").val(total_sum);
+    // var select2 = $('option:selected', "#select2").data('id');
+    // if (select2) {
+    //   sum -= select2;
+    // }
+    // var total_sum = sum * no_of_person;
+    // $("#extra_price").val(total_sum);
+
+    // -----price of plate and select1-----
+    var extra_price = $("#extra_price").val();
+    var total_amount = $("#total_amount").val();
+    var final_amount = parseInt(extra_price) + parseInt(total_amount);
+    $("#final_amount").val(final_amount);
+
+    // ----------advance payment----------
+    var final_amount = $("#final_amount").val();
+    var advance_payment = $("#advance_payment").val();
+    var payment = parseInt(final_amount) - parseInt(advance_payment);
+    $("#due_payment").val(payment);
+  }
+
+  function extra_price() {
+    var no_of_person = $("#person").val();
+    var select2 = $('option:selected', "#select4").data('id');
+    // console.log("select2 ",select2);
+    if (select3) {
+      sum -= select3;
+      // console.log("sum ", sum);
+    }
+    // var total_sum = sum * no_of_person;
+    var total_sum = sum * 1;
+    $("#extra_price").val(total_sum);
+    // console.log("total_sum ",total_sum);
+  }
+
+  $("#price_of_plate").change(function () {
+    calculation();
+  });
+
+  $("#person").change(function () {
+    calculation();
+  });
+
+  $("#select3").change(function () {
+    calculation();
+  });
+
+  $("#select4").change(function () {
+    // alert("Hy");
+    // calculation();
+    extra_price();
+  });
+
+  $("#advance_payment").change(function () {
+    calculation();
+  });
+
+  $("#menu").change(function () {
+    // var menu = $(this).val();
+    var menu = $('option:selected', "#menu").data('id');
+    // $("#item_list").val(menu);
+    // console.log("menu ",menu);
+    // let data =   ;
+    // console.log("jsonData::",test);
+
+    $("#item_list").empty();
+    let menuarray = menu.split(',');
+    menuarray.map((e) => {
+      $("#item_list").append('<li>' + e + '</li>');
+    })
+  });
+
+  // $("#price_of_plate").change(function () {
+  //   var price_of_plate = $(this).val();
+  //   var no_of_person = $("#capacity").val();
+  //   var amount = parseInt(price_of_plate) * parseInt(no_of_person);
+  //   $("#total_amount").val(amount);
+  // });
+
+  // var sum = 0;
+  // $("#select1").change(function () {
+  //   var no_of_person = $("#capacity").val();
+  //   var select2 = $('option:selected', this).data('id');
+  //   // console.log("select2 ",select2);
+  //   if (select2) {
+  //     sum += select2;
+  //   }
+  //   var total_sum = sum * no_of_person;
+  //   $("#extra_price").val(total_sum);
+  //   // console.log("sum ",total_sum);
+  // });
+  // // // var sum = 0;
+  // $("#select2").change(function () {
+  //   var no_of_person = $("#capacity").val();
+  //   var select2 = $('option:selected', this).data('id');
+  //   // console.log("select2 ",select2);
+  //   if(select2){
+  //     sum -= select2;
+  //   }
+  //   var total_sum = sum * no_of_person;
+  //   $("#extra_price").val(total_sum);
+  //   // console.log("sum ",total_sum);
+  // });
+
+  // $("#select1").change(function () {
+  //   var extra_price = $("#extra_price").val();
+  //   var total_amount = $("#total_amount").val();
+  //   var final_amount = parseInt(extra_price) + parseInt(total_amount);
+  //   $("#final_amount").val(final_amount);
+  //   // console.log("extra_price ",extra_price);
+  //   // console.log("total_amount ",total_amount);
+  //   // console.log("final_amount ",final_amount);
+  //   // console.log("Hy");
+  // });
+  // $("#price_of_plate").change(function () {
+  //   var extra_price = $("#extra_price").val();
+  //   var total_amount = $("#total_amount").val();
+  //   var final_amount = parseInt(extra_price) + parseInt(total_amount);
+  //   $("#final_amount").val(final_amount);
+  //   // console.log("extra_price ",extra_price);
+  //   // console.log("total_amount ",total_amount);
+  //   // console.log("final_amount ",final_amount);
+  //   // console.log("Hy");
+  // });
+
+  // $("#advance_payment").change(function () {
+  //   var final_amount = $("#final_amount").val();
+  //   var advance_payment = $("#advance_payment").val();
+  //   var payment = parseInt(final_amount) - parseInt(advance_payment);
+  //   $("#due_payment").val(payment);
+  //   // alert(payment);
+  //   // console.log("payment ",payment);
+  //   // console.log("Hy");
+  // });
+
+</script>
+
+</html>

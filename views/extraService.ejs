@@ -1,0 +1,106 @@
+<!-- <!DOCTYPE html>
+<html>
+
+<head>
+  <title>Extra Services</title>
+  <style>
+    ul li:nth-child(4) a{
+      color: white;
+      background-color: #2D3250;
+      border-radius: 999em;
+    }
+  </style>
+</head>
+
+<body> -->
+  <style>
+    ul li:nth-child(3) a{
+      color: white;
+      background-color: #2D3250;
+      border-radius: 999em;
+    }
+  </style>
+<div class="d-flex">
+  <div class="col-3">
+  <%- include('sidebar'); -%>
+</div>
+
+<div class="col-9 bg-color">
+  <div class="mt-5 container">
+    <h5>Hey, Venessa</h5>
+        <h2>Add Services</h2>
+
+    <% if(error) { %>
+      <p class="successMessage">
+        <%= error %>
+      </p>
+      <% } %>
+
+  <% if(message) { %>
+        <h6>
+          <%= message %>
+        </h6>
+        <% } %>
+
+        <% if(edit) { %>
+          <form method="post" action="/extraService/<%= id %>">
+            <% }else{ %>
+              <form method="post" action="/extraService">
+                <% } %>
+                  <div class="form-control">
+                    <label class="w-15">Services</label>
+                    <input type="text" name="name" placeholder="Services" value="<%= name %>">
+                    <a href="/extraService" class="button padding"><i class="fas fa-undo resetBtn"></i>Reset</a>
+                    <br /><br />
+                    <label class="w-15">Price</label>
+                    <input type="number" name="price" placeholder="Price" value="<%= price %>" x />
+                    <% if(edit) { %>
+                      <input type="submit" value="Update Service" class="button" />
+                      <% }else{ %>
+                        <input type="submit" value="Add Service" class="button" />
+                        <% } %>
+                        <br /><br />
+                  </div>
+              </form>
+              <br /><br />
+
+              <h2>Services</h2>
+
+              <div class="scroll">
+              <table class="table table-borderless">
+                <thead>
+                  <tr>
+                    <th>Item Name</th>
+                    <th>Price</th>
+                    <th class="text-align-center">Edit</th>
+                    <th class="text-align-center">Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <% for(var i=0; i < data.length; i++) { %>
+                    <tr>
+                      <td>
+                        <%= data[i].name %>
+                      </td>
+
+                      <td>
+                        <%= data[i].price %>
+                      </td>
+                      <!-- <td><a href="/extraService?id=<%= data[i]._id %>""><button>Edit</button></a></td>
+                      <td><a href=" /extraService/delete/<%=data[i]._id %>""><button>Delete</button></a></td> -->
+                      <td class="text-align-center"><a href="/extraService?id=<%= data[i]._id %>""><i class="fas fa-edit"></i></a></td>
+                      <td class="text-align-center"><a href=" /extraService/delete/<%=data[i]._id %>""><i class="fas fa-trash-alt"></i></a></td>
+                    </tr>
+
+                    <tr>
+                      <% } %>
+                    </tr>
+                </tbody>
+              </table>
+            </div>
+            
+  </div>
+</div>
+</div>
+
+<%- include('footer'); -%>

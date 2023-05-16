@@ -1,0 +1,126 @@
+<!-- <!DOCTYPE html>
+<html>
+
+<head>
+  <title>Item</title>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <style>
+    ul li:nth-child(2) a {
+      color: white;
+      background-color: #2D3250;
+      border-radius: 999em;
+    }
+  </style>
+</head>
+
+<body> -->
+<style>
+  ul li:nth-child(2) a {
+    color: white;
+    background-color: #2D3250;
+    border-radius: 999em;
+  }
+</style>
+
+<div class="d-flex">
+  <div class="col-3">
+    <%- include('sidebar'); -%>
+  </div>
+
+  <div class="col-9 bg-color">
+    <div class="mt-5 container">
+      <h5>Hey, Venessa</h5>
+      <h2>Add Item</h2>
+
+      <% if(error) { %>
+        <p class="successMessage">
+          <%= error %>
+        </p>
+        <% } %>
+
+          <% if(message) { %>
+            <h6>
+              <%= message %>
+            </h6>
+            <% } %>
+
+              <% if(edit) { %>
+                <form method="post" action="/item/<%= id %>">
+                  <% }else{ %>
+                    <form method="post" action="/item">
+                      <% } %>
+                        <div class="form-control mb-4">
+                          <label class="w-15">Item Name</label>
+                          <input type="text" name="name" placeholder="Item Name" value="<%= name %>">
+                          <a href="/item" class="button padding"><i class="fas fa-undo resetBtn"></i>Reset</a>
+                          <br /><br />
+                          <label class="w-15">Item Price</label>
+                          <input type="number" name="price" placeholder="Item Price" value="<%= price %>" x />
+                          <% if(edit) { %>
+                            <input type="submit" value="Update Item" class="button" />
+                            <% }else{ %>
+                              <input type="submit" value="Add Item" class="button" />
+                              <% } %>
+                                <br /><br />
+
+                                <!-- <div class="d-flex">
+                                  <label class="w-15">Ingredients</label>
+                                  <div
+                                    style="width: 720px; height: 70px; border-radius: 50px; background-color: #f5f5f5;">
+                                    <textarea name="ingredients" id="ingredients" placeholder="Ingredients"></textarea>
+                                  </div>
+                                  <input type="hidden" id="ingredients_value" name="ingredients_value">
+                                </div>
+                                <br /><br /> -->
+
+                        </div>
+                    </form>
+
+                    <h2>Items</h2>
+                    <div class="scroll">
+                      <table class="table table-borderless">
+                        <thead>
+                          <tr>
+                            <th>Item Name</th>
+                            <th>Price</th>
+                            <th class="text-align-center">Edit</th>
+                            <th class="text-align-center">Delete</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <% for(var i=0; i < data.length; i++) { %>
+                            <tr>
+                              <td>
+                                <%= data[i].name %>
+                              </td>
+
+                              <td>
+                                <%= data[i].price %>
+                              </td>
+                              <!-- <td><a href="/item?id=<%= data[i]._id %>""><button>Edit</button></a></td>
+                              <td><a href=" /item/delete/<%=data[i]._id %>""><button>Delete</button></a></td> -->
+                              <td class="text-align-center"><a href="/item?id=<%= data[i]._id %>""><i class=" fas fa-edit"></i></a></td>
+                              <td class="text-align-center"><a href=" /item/delete/<%=data[i]._id %>""><i class=" fas fa-trash-alt"></i></a></td>
+                            </tr>
+
+                            <tr>
+                              <% } %>
+                            </tr>
+                        </tbody>
+                      </table>
+                    </div>
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+  $("#ingredients").change(function () {
+    var textareaValue = document.querySelector('#ingredients').value;
+    var linesArray = textareaValue.split('\n');
+    console.log("linesArray ", linesArray);
+    $("#ingredients_value").val(linesArray);
+  });
+</script>
+
+<%- include('footer'); -%>

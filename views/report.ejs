@@ -1,0 +1,293 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Report</title>
+  <style>
+    ul li:nth-child(6) a{
+      color: white;
+      background-color: #2D3250;
+      border-radius: 999em;
+    }
+  </style>
+</head>
+
+<body> -->
+<style>
+  /* ul li:nth-child(6) a{
+      color: white;
+      background-color: #2D3250;
+      border-radius: 999em;
+    } */
+    tr td::after {
+  content: '\A';
+  white-space: pre;
+}
+  ul li summary {
+    color: white;
+    background-color: #2D3250 !important;
+  }
+
+  ul li details p:nth-child(2) a {
+    color: #fff;
+    background-color: #42486b !important;
+  }
+</style>
+<div class="d-flex">
+  <div class="col-3">
+    <%- include('sidebar'); -%>
+  </div>
+
+  <div class="col-9 bg-color">
+    <div class="container mt-5">
+      <h5>Hey, Venessa</h5>
+      <h2>Reservation Report</h2>
+
+      <% if(error) { %>
+        <p class="successMessage">
+          <%= error %>
+        </p>
+        <% } %>
+
+          <% if(message) { %>
+            <h6>
+              <%= message %>
+            </h6>
+            <% } %>
+
+              <form method="get" action="/report">
+                <div class="form-control">
+                  <label class="w-15">From Date</label>
+                  <input type="date" name="from_date" value="<%= from_date %>" />
+                  <a href="/report" class="button padding"><i class="fas fa-undo resetBtn"></i>Reset</a>
+                  <br><br>
+                  <label class="w-15">To Date</label>
+                  <input type="date" name="to_date" value="<%= to_date %>" />
+                  <!-- <br /><br />
+                  <label class="w-10">Add Time</label>
+                  <select name="time" class="w-20">
+                    <option <%=time==='Morning' ? 'selected' : '' %> >Morning</option>
+                    <option <%=time==='Noon' ? 'selected' : '' %> >Noon</option>
+                    <option <%=time==='Evening' ? 'selected' : '' %> >Evening</option>
+                    <option <%=time==='All' ? 'selected' : '' %> >All</option>
+                  </select> -->
+                  <input type="submit" value="Search" class="button mb-4" />
+                </div>
+              </form>
+
+              <h2 class="mt-4">Reservations</h2>
+              <div class="scroll">
+                <table class="table table-borderless mt-3">
+                  <thead>
+                    <tr>
+                      <th>No.</th>
+                      <th>Name</th>
+                      <th>Contact No.</th>
+                      <th>Date</th>
+                      <th>Time</th>
+                      <th>Hall</th>
+                      <th>Advance</th>
+                      <th>View</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <% for(var i=0; i < data.length; i++) { %>
+                      <tr>
+                        <td>
+                          <%= i+1 %>
+                        </td>
+                        <td>
+                          <%= data[i].username %>
+                        </td>
+                        <td>
+                          <%= data[i].phonenumber %>
+                        </td>
+                        <td>
+                          <%= data[i].date %>
+                        </td>
+                        <td>
+                          <%= data[i].time %>
+                        </td>
+                        <td>
+                          <%= data[i].hall.name %>
+                        </td>
+                        <td>
+                          <%= data[i].advance_payment %>
+                        </td>
+                        <td>
+                          <div class="wrapper">
+
+                            <a href="/report?from_date=<%= from_date %>&to_date=<%= to_date %>&id=<%= data[i]._id %>&#demo-modal"
+                              class="button">view</a>
+                            <div id="demo-modal" class="modal">
+                              <div class="modal__content">
+                                <div class="scrollModal">
+          
+                                  <table id="printdiv">
+                                    <tr><td colspan="2"><img src="images/logo.jpeg" alt="logo" style="width:200px"></td></tr>
+                                    <% for(var d=0;d < data1.length;d++){ %>
+                                      <tr>
+                                        <td colspan="2">
+                                          <h3>Reservation Details</h3>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>Date and Time : </b></td>
+                                        <td>
+                                          <%= formattedDate %> /  <%= data1[d].time %>
+                                          <br>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td colspan="2">
+                                          <h3>Personal Details</h3>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>Name : </b></td>
+                                        <td>
+                                          <%= data1[d].username %>
+                                          <br>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>Address : </b></td>
+                                        <td>
+                                          <%= data1[d].address %>
+                                          <br>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>Contact No. : </b><%= data1[d].phonenumber %></td>
+                                        <td><b>Email : </b><%= data1[d].email %><br></td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>No Of Person : </b><%= data1[d].person %></td>
+                                        <td><b>Ocation : </b><%= data1[d].ocation %><br></td>
+                                      </tr>
+                                      <tr>
+                                        <td colspan="2">
+                                          <h3>Booking Details</h3>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>Booking Hall : </b></td>
+                                        <td>
+                                          <%= data1[d].hall.name %>
+                                          <br>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td>
+                                          <table>
+                                            <tr>
+                                              <td><br><b>Extra Services : </td>
+                                            </tr>
+                                            <tr>
+                                              <td>
+                                                <br>
+                                              <% for(var j=0;j < data1[d].services.length;j++){ %>
+                                                  - <%= data1[d].services[j].name %>
+                                                  <br>
+                                                  <% } %>
+                                              </td>
+                                            </tr>
+                                          </table>
+                                        </td>
+                                        <td>
+                                          <table>
+                                            <tr>
+                                              <td><br><b>Menu Items : </b></td>
+                                            </tr>
+                                            <tr>
+                                              <td>
+                                                <br>
+                                              <% for(var j=0;j < data1[d].items.length;j++){ %>
+                                                  - <%= data1[d].items[j].name %>
+                                                  <br>
+                                                  <% } %>
+                                                </td>
+                                            </tr>
+                                          </table>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td colspan="2">
+                                          <h3>Payment Details</h3>
+                                        </td>
+                                      </tr>
+                                      <tr>
+                                        <td><b>Price of Plate : </b> <%= data1[d].price_of_plate %></td>
+                                       
+                                        <td><b>Total Amount : </b> <%= data1[d].total_amount %><br></td>
+                                        
+                                      </tr>
+                                      <tr>
+                                        <td><b>Extra Price : </b> <%= data1[d].extra_price %></td>
+                                
+                                        <td><b>Final Price : </b> <%= data1[d].final_amount %><br></td>
+                                       
+                                      </tr>
+                                      <tr>
+                                        <td><b>Advance Payment : </b><%= data1[d].advance_payment %></td>
+                                       
+                                        <td><b>Due Payment : </b> <%= data1[d].due_payment %><br></td>
+                                       
+                                      </tr>
+                                      <% } %>
+                                    </table>
+                                    <button class="button" id="printbtn">Print</button>
+
+                                  <a href="#" class="modal__close">&times;</a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <% } %>
+                      </tr>
+                      
+                  </tbody>
+                </table>
+              </div>
+
+    </div>
+  </div>
+</div>
+
+<script>
+  $(function () {
+    $("#printbtn").click(function () {
+      // var id = $(this).attr("id");
+      var contents = $("#printdiv").html();
+      // var contents = $("#bodyWrapper" + id).html();
+      var frame1 = $('<iframe />');
+      frame1[0].name = "frame1";
+      frame1.css({ "position": "absolute", "top": "-1000000px" });
+      $("body").append(frame1);
+      var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+      frameDoc.document.open();
+      //Create a new HTML document.
+      frameDoc.document.write('<html><head><title>DIV Contents</title>');
+      frameDoc.document.write('</head><body>');
+      //Append the external CSS file.
+      frameDoc.document.write('<link href="/stylesheets/style.css" rel="stylesheet" type="text/css" />');
+      //Append the DIV contents.
+      frameDoc.document.write(contents);
+      frameDoc.document.write('</body></html>');
+      frameDoc.document.close();
+      setTimeout(function () {
+        window.frames["frame1"].focus();
+        window.frames["frame1"].print();
+        frame1.remove();
+      }, 500);
+    });
+  });
+</script>
+
+<%- include('footer'); -%>

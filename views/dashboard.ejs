@@ -1,0 +1,179 @@
+<!-- <!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard</title>
+  <style>
+    ul li:nth-child(7) a{
+      color: white;
+      background-color: #2D3250;
+      border-radius: 999em;
+    }
+  </style>
+</head>
+
+<body> -->
+<style>
+  ul li summary {
+    color: white;
+    background-color: #2D3250 !important;
+  }
+
+  ul li details p:nth-child(3) a {
+    color: #fff;
+    background-color: #42486b !important;
+  }
+</style>
+<div class="d-flex">
+  <div class="col-3">
+    <%- include('sidebar'); -%>
+  </div>
+
+  <div class="col-9 bg-color">
+    <div class="container mt-5">
+      <h5>Hey, Venessa</h5>
+      <h2>Kitchen Report</h2>
+
+      <form method="get" action="/dashboard">
+        <div class="form-control">
+          <label class="w-10">Date</label>
+          <input type="date" name="date" value="<%= currentDate %>" />
+          <input type="submit" value="Search" class="button" />
+          <br><br>
+        </div>
+      </form>
+
+      <div class="container">
+        <div class="row">
+          <div class="col-md-6">
+            <% for(var i=0; i < data.length; i+=2) { %>
+              <div class="bg_color" id="bodyWrapper<%= i+1 %>">
+                <ul class="list-unstyled ul">
+                  <button class="i-box print" id="<%= i+1 %>"><i class="fas fa-print i"></i></button>
+                  <ul class="list-unstyled text-center d-flex">
+                    <li class="font-style">
+                      <%= formattedDate %>
+                        <hr>
+                    </li>
+                    <li class="font-style font_hall">
+                      <%= data[i].hall.name %>
+                        <hr>
+                    </li>
+                    
+                  </ul>
+
+                  <ul class="list-unstyled text-center d-flex" style="margin-top:-17px">
+                    <li class="font-style">
+                      <%= data[i].time %>
+                    </li>
+                    <li class="font-style">
+                      <%= data[i].ocation %>
+                    </li>
+                    <li class="font-style">
+                      Person - <%= data[i].person %>
+                    </li>
+                  </ul>
+                </ul>
+
+                  <ul class="list-unstyled text-center">
+                    <% for(var k=0;k < data[i].items.length;k++){ %>
+                    <li class="item">
+                          <%= data[i].items[k].name %>
+                        </li>
+                        <% } %>
+                  </ul>
+
+              </div>
+              <% } %>
+          </div>
+          <div class="col-md-6">
+            <% for(var i=1; i < data.length; i+=2) { %>
+              <div class="bg_color" id="bodyWrapper<%= i+1 %>">
+                <ul class="list-unstyled ul">
+                  <button class="i-box print" id="<%= i+1 %>"><i class="fas fa-print i"></i></button>
+                  <!-- <button class="i-box" onclick="window.print()"><i class="fas fa-print i"></i></button> -->
+                  <ul class="list-unstyled text-center d-flex">
+                    <li class="font-style">
+                      <%= formattedDate %>
+                        <hr>
+                    </li>
+                    <li class="font-style font_hall">
+                      <%= data[i].hall.name %>
+                        <hr>
+                    </li>
+                    
+                  </ul>
+
+                  <ul class="list-unstyled text-center d-flex" style="margin-top:-17px">
+                    <li class="font-style">
+                      <%= data[i].time %>
+                    </li>
+                    <li class="font-style">
+                      <%= data[i].ocation %>
+                    </li>
+                    <li class="font-style">
+                      Person - <%= data[i].person %>
+                    </li>
+                  </ul>
+                </ul>
+
+                <!-- <div class="i-box"><i class="fas fa-print i"></i></div> -->
+
+                <!-- <div class="itemscroll"> -->
+                    <!-- </div> -->
+
+                      <ul class="list-unstyled text-center">
+                        <% for(var k=0;k < data[i].items.length;k++){ %>
+                        <li class="item">
+                              <%= data[i].items[k].name %>
+                            </li>
+                            <% } %>
+                      </ul>
+
+              </div>
+              <% } %>
+
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script type="text/javascript">
+  $(function () {
+    $(".print").click(function () {
+      var id = $(this).attr("id");
+      // var contents = $("#dvContents").html();
+      var contents = $("#bodyWrapper" + id).html();
+      var frame1 = $('<iframe />');
+      frame1[0].name = "frame1";
+      frame1.css({ "position": "absolute", "top": "-1000000px" });
+      $("body").append(frame1);
+      var frameDoc = frame1[0].contentWindow ? frame1[0].contentWindow : frame1[0].contentDocument.document ? frame1[0].contentDocument.document : frame1[0].contentDocument;
+      frameDoc.document.open();
+      //Create a new HTML document.
+      frameDoc.document.write('<html><head><title>DIV Contents</title>');
+      frameDoc.document.write('</head><body>');
+      //Append the external CSS file.
+      frameDoc.document.write('<link href="/stylesheets/style.css" rel="stylesheet" type="text/css" />');
+      //Append the DIV contents.
+      frameDoc.document.write(contents);
+      frameDoc.document.write('</body></html>');
+      frameDoc.document.close();
+      setTimeout(function () {
+        window.frames["frame1"].focus();
+        window.frames["frame1"].print();
+        frame1.remove();
+      }, 500);
+    });
+  });
+</script>
+
+
+<%- include('footer'); -%>
